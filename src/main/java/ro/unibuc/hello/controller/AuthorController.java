@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ro.unibuc.hello.data.AuthorEntity;
-import ro.unibuc.hello.dto.Author;
 import ro.unibuc.hello.service.AuthorService;
+import ro.unibuc.hello.dto.AuthorCreationRequestDto;
 
 @Controller
 public class AuthorController {
@@ -19,9 +19,10 @@ public class AuthorController {
 
     @PostMapping("/authors")
     @ResponseBody
-    public ResponseEntity<AuthorEntity> createAuthor(@RequestBody Author author) {
-        AuthorEntity newAuthor = authorService.saveAuthor(author);
+    public ResponseEntity<AuthorEntity> createAuthor(@RequestBody AuthorCreationRequestDto authorCreationRequestDto) {
+        String name = authorCreationRequestDto.getName();
+        String nationality = authorCreationRequestDto.getNationality();
+        var newAuthor = authorService.saveAuthor(name, nationality);
         return ResponseEntity.ok(newAuthor);
     }
-
 }
