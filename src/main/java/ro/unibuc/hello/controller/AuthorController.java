@@ -20,9 +20,8 @@ public class AuthorController {
     @PostMapping("/authors")
     @ResponseBody
     public ResponseEntity<AuthorEntity> createAuthor(@RequestBody AuthorCreationRequestDto authorCreationRequestDto) {
-        String name = authorCreationRequestDto.getName();
-        String nationality = authorCreationRequestDto.getNationality();
-        var newAuthor = authorService.saveAuthor(name, nationality);
+        var newAuthor = authorService.saveAuthor(authorCreationRequestDto.getName(),
+                authorCreationRequestDto.getNationality());
         return ResponseEntity.ok(newAuthor);
     }
 }
