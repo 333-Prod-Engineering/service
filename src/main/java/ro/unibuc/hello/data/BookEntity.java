@@ -14,7 +14,8 @@ import lombok.Setter;
 @Setter
 public class BookEntity {
     @Id
-    private String id;
+    private String bookId;
+
     private String title;
     private String genre;
     private LocalDate publicationDate;
