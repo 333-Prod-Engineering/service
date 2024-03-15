@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import ro.unibuc.hello.data.ReaderEntity;
 import ro.unibuc.hello.service.ReaderService;
-import ro.unibuc.hello.dto.Greeting;
 import ro.unibuc.hello.dto.ReaderCreationRequestDto;
 
 @Controller
@@ -20,31 +19,22 @@ public class ReaderController {
 
     @GetMapping("/readers")
     @ResponseBody
-    private List<ReaderEntity> getReaders(){
+    private List<ReaderEntity> getReaders() {
         return readerService.getAllReaders();
     }
 
     @PostMapping("/readers")
     @ResponseBody
     public ResponseEntity<ReaderEntity> createReader(@RequestBody ReaderCreationRequestDto readerCreationRequestDto) {
-        var newReader = readerService.saveReader(readerCreationRequestDto.getName(),
-                readerCreationRequestDto.getNationality(),
-                readerCreationRequestDto.getEmail(),
-                readerCreationRequestDto.getPhoneNumber(),
-                readerCreationRequestDto.getBirthDate(),
-                readerCreationRequestDto.getRegistrationDate());
+        var newReader = readerService.saveReader(readerCreationRequestDto);
         return ResponseEntity.ok(newReader);
     }
 
     @PatchMapping("/readers/{id}")
     @ResponseBody
-    public ResponseEntity<ReaderEntity> updateReader(@PathVariable String id, 
-                                                     @RequestBody ReaderCreationRequestDto readerCreationRequestDto) {
-        var updatedReader = readerService.updateReader(id,
-                                readerCreationRequestDto.getEmail(),
-                                readerCreationRequestDto.getPhoneNumber());
+    public ResponseEntity<ReaderEntity> updateReader(@PathVariable String id,
+            @RequestBody ReaderCreationRequestDto readerCreationRequestDto) {
+        var updatedReader = readerService.updateReader(id, readerCreationRequestDto);
         return ResponseEntity.ok(updatedReader);
     }
-
-
 }

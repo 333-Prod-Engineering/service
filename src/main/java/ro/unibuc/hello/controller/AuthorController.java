@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.data.AuthorEntity;
 import ro.unibuc.hello.service.AuthorService;
 import ro.unibuc.hello.dto.AuthorCreationRequestDto;
+import ro.unibuc.hello.dto.UpdateAuthorRequestDto;
 
 @Controller
 public class AuthorController {
@@ -18,17 +19,15 @@ public class AuthorController {
     @PostMapping("/authors")
     @ResponseBody
     public ResponseEntity<AuthorEntity> createAuthor(@RequestBody AuthorCreationRequestDto authorCreationRequestDto) {
-        var newAuthor = authorService.saveAuthor(authorCreationRequestDto.getName(),
-                authorCreationRequestDto.getNationality());
+        var newAuthor = authorService.saveAuthor(authorCreationRequestDto);
         return ResponseEntity.ok(newAuthor);
     }
 
     @PatchMapping("/authors/{id}")
     @ResponseBody
-    public ResponseEntity<AuthorEntity> updateAuthor(@PathVariable String id, 
-                                                     @RequestBody AuthorCreationRequestDto authorCreationRequestDto) {
-        var updatedAuthor = authorService.updateAuthor(id, authorCreationRequestDto.getName(),
-                                                       authorCreationRequestDto.getNationality());
+    public ResponseEntity<AuthorEntity> updateAuthor(@PathVariable String id,
+            @RequestBody UpdateAuthorRequestDto updateAuthorRequestDto) {
+        var updatedAuthor = authorService.updateAuthor(id, updateAuthorRequestDto);
         return ResponseEntity.ok(updatedAuthor);
     }
 }
