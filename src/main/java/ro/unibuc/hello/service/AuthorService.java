@@ -1,7 +1,8 @@
 package ro.unibuc.hello.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,10 @@ public class AuthorService {
         var author = authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
         author.setDeathDate(updateAuthorRequestDto.getDeathDate());
         return authorRepository.save(author);
+    }
+
+    public List<AuthorEntity> getAllAuthors(){
+        return authorRepository.findAll();
     }
 
     private AuthorEntity mapToAuthorEntity(AuthorCreationRequestDto dto) {

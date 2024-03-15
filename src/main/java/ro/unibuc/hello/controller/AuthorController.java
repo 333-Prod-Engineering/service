@@ -1,5 +1,7 @@
 package ro.unibuc.hello.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,12 @@ public class AuthorController {
     @Autowired
     private AuthorService authorService;
 
+    @GetMapping("/authors")
+    @ResponseBody
+    public List<AuthorEntity> getAllAuthors(){
+        return authorService.getAllAuthors();
+    }
+    
     @PostMapping("/authors")
     @ResponseBody
     public ResponseEntity<AuthorEntity> createAuthor(@RequestBody AuthorCreationRequestDto authorCreationRequestDto) {
