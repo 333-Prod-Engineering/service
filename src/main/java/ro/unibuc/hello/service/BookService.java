@@ -1,10 +1,13 @@
 package ro.unibuc.hello.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import ro.unibuc.hello.data.AuthorEntity;
 import ro.unibuc.hello.data.AuthorRepository;
 import ro.unibuc.hello.data.BookEntity;
 import ro.unibuc.hello.data.BookRepository;
@@ -26,6 +29,10 @@ public class BookService {
         log.debug("Creating a new book with title {}", bookCreationRequestDto.getTitle());
         var bookEntity = mapToBookEntity(bookCreationRequestDto);
         return bookRepository.save(bookEntity);
+    }
+
+    public List<BookEntity> getBooksByAuthor(AuthorEntity authorEntity) {
+        return bookRepository.findByAuthor(authorEntity);
     }
 
     private BookEntity mapToBookEntity(BookCreationRequestDto dto) {

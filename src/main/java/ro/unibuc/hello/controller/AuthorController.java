@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.data.AuthorEntity;
 import ro.unibuc.hello.service.AuthorService;
 import ro.unibuc.hello.dto.AuthorCreationRequestDto;
+import ro.unibuc.hello.dto.AuthorDeleteRequestDto;
 import ro.unibuc.hello.dto.UpdateAuthorRequestDto;
 
 @Controller
@@ -37,5 +38,12 @@ public class AuthorController {
             @RequestBody UpdateAuthorRequestDto updateAuthorRequestDto) {
         var updatedAuthor = authorService.updateAuthor(id, updateAuthorRequestDto);
         return ResponseEntity.ok(updatedAuthor);
+    }
+
+    @DeleteMapping("/authors") 
+    @ResponseBody
+    public ResponseEntity<String> deleteAuthor(@RequestBody AuthorDeleteRequestDto authorDeleteRequestDto) {
+        authorService.deleteAuthor(authorDeleteRequestDto);
+        return ResponseEntity.ok("Author deleted successfully");
     }
 }
