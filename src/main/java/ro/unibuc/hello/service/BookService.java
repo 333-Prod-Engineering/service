@@ -1,5 +1,7 @@
 package ro.unibuc.hello.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,9 @@ public class BookService {
         bookEntity.setAuthor(authorEntity);
 
         return bookEntity;
+    }
+
+    public List<BookEntity> getBooksByAuthor(String authorId) {
+        return bookRepository.findByAuthorId(authorId);
     }
 }
