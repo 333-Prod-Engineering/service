@@ -34,12 +34,12 @@ public class ReaderService {
         return readerRepository.findAll();
     }
 
-    public ReaderEntity updateReader(String id, ReaderCreationRequestDto readerCreationRequestDto) {
+    public ReaderEntity updateReader(String id, ReaderUpdateRequestDto readerUpdateRequestDto) {
         log.debug("Updating the reader with id '{}', setting email '{}' and phone '{}'", id,
-                readerCreationRequestDto.getEmail(), readerCreationRequestDto.getPhoneNumber());
+                readerUpdateRequestDto.getEmail(), readerUpdateRequestDto.getPhoneNumber());
         var reader = readerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
-        reader.setEmail(readerCreationRequestDto.getEmail());
-        reader.setPhoneNumber(readerCreationRequestDto.getPhoneNumber());
+        reader.setEmail(readerUpdateRequestDto.getEmail());
+        reader.setPhoneNumber(readerUpdateRequestDto.getPhoneNumber());
         return readerRepository.save(reader);
     }
 
