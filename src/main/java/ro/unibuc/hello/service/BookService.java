@@ -14,8 +14,8 @@ import ro.unibuc.hello.data.BookEntity;
 import ro.unibuc.hello.data.BookRepository;
 import ro.unibuc.hello.data.ReaderEntity;
 import ro.unibuc.hello.data.ReaderRepository;
-import ro.unibuc.hello.data.ReadingRecordEntity;
 import ro.unibuc.hello.data.ReadingRecordRepository;
+
 import ro.unibuc.hello.dto.BookCreationRequestDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 

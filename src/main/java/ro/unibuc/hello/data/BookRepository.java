@@ -10,4 +10,5 @@ public interface BookRepository extends MongoRepository<BookEntity, String> {
     List<BookEntity> findByAuthor(AuthorEntity author);
     List<BookEntity> findByReader(ReaderEntity reader);
     BookEntity findByTitleAndPublisher(String title, String publisher);
+    List<BookEntity> findByReader(ReaderEntity reader);
 }
