@@ -46,6 +46,8 @@ public class BookService {
     }
 
     public List<BookEntity> getBooksByAuthor(String authorId) {
-        return bookRepository.findByAuthorId(authorId);
+        var authorEntity = authorRepository.findById(authorId)
+                .orElseThrow(() -> new IllegalArgumentException("Author not found with id: " + authorId));
+        return bookRepository.findByAuthor(authorEntity);
     }
 }

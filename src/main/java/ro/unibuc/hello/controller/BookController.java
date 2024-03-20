@@ -29,8 +29,10 @@ public class BookController {
     }
 
     @GetMapping("/books/authors/{authorId}")
-    public List<BookEntity> getBooksByAuthor(@PathVariable String authorId) {
-        return bookService.getBooksByAuthor(authorId);
+    @ResponseBody
+    public ResponseEntity <List<BookEntity>> getBooksByAuthor(@PathVariable String authorId) {
+        var books = bookService.getBooksByAuthor(authorId);
+        return ResponseEntity.ok(books);
     }
 
 }
