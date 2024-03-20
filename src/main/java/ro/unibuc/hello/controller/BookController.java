@@ -27,12 +27,11 @@ public class BookController {
         var newBook = bookService.saveBook(bookCreationRequestDto);
         return ResponseEntity.ok(newBook);
     }
-
+  
     @GetMapping("/books/authors/{authorId}")
     @ResponseBody
     public ResponseEntity <List<BookEntity>> getBooksByAuthor(@PathVariable String authorId) {
         var books = bookService.getBooksByAuthor(authorId);
         return ResponseEntity.ok(books);
     }
-
 }
