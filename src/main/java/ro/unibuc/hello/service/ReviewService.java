@@ -55,4 +55,8 @@ public class ReviewService {
         review.setReviewBody(reviewUpdateRequestDto.getReviewBody());
         return reviewRepository.save(review);
     }
+
+    public void deleteReview(String reviewId) {
+        reviewRepository.deleteById(reviewId);
+    }
 }
