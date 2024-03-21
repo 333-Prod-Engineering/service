@@ -7,15 +7,11 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ro.unibuc.hello.data.AuthorEntity;
-import ro.unibuc.hello.data.ReadingRecordEntity;
 import ro.unibuc.hello.data.ReadingRecordRepository;
 import ro.unibuc.hello.data.ReviewEntity;
 import ro.unibuc.hello.data.ReviewRepository;
-import ro.unibuc.hello.dto.ReadingRecordCreationRequestDto;
 import ro.unibuc.hello.dto.ReviewCreationRequestDto;
 import ro.unibuc.hello.dto.ReviewUpdateRequestDto;
-import ro.unibuc.hello.dto.UpdateAuthorRequestDto;
 import ro.unibuc.hello.exception.EntityNotFoundException;
 
 @Service
