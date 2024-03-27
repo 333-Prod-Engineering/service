@@ -82,9 +82,15 @@ public class BookService {
     }
 
     public List<BookEntity> getBooksByReader(String readerId) {
+<<<<<<< Updated upstream
         log.debug("Getting books by reader with id: '{}'", readerId);
         var readerEntity = readerRepository.findById(readerId)
                 .orElseThrow(() -> new EntityNotFoundException("Reader not found with id: " + readerId));
+=======
+        var readerEntity = readerRepository.findById(readerId)
+                .orElseThrow(() -> new IllegalArgumentException("Reader not found with id: " + readerId));
+
+>>>>>>> Stashed changes
         var records = readingRecordRepository.findByReader(readerEntity);
 
         List<BookEntity> books = new ArrayList<>();
