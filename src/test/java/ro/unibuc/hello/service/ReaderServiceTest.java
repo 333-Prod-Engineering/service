@@ -141,7 +141,7 @@ public class ReaderServiceTest {
     }
 
     @Test
-    public void test_deleteAuthor_RuntimeException() throws Exception {
+    public void test_deleteReader_RuntimeException() throws Exception {
         // Given
         var readerId = "1";
         when(readerRepository.findById(any())).thenThrow(new RuntimeException("Reader not found with id: " + readerId));
