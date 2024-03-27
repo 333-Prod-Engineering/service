@@ -39,7 +39,7 @@ public class ReviewServiceTest {
 
     @BeforeEach
     public void setup() {
-        readingRecordRepository.deleteAll();
+        reviewRepository.deleteAll();
 
         reader = ReaderEntity.builder()
                 .readerId("65fbeeb6748071114eae8d5c")
