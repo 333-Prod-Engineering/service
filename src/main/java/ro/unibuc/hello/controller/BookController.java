@@ -38,19 +38,11 @@ public class BookController {
 
     @GetMapping("/books/readers/{readerId}")
     @ResponseBody
-<<<<<<< Updated upstream
     public ResponseEntity<List<BookEntity>> getBooksByReader(@PathVariable String readerId) {
         var books = bookService.getBooksByReader(readerId);
         return ResponseEntity.ok(books);
     }
 
-=======
-    public ResponseEntity <List<BookEntity>> getBooksByReader(@PathVariable String readerId) {
-        var books = bookService.getBooksByReader(readerId);
-        return ResponseEntity.ok(books);
-    }
-  
->>>>>>> Stashed changes
     @DeleteMapping("/books/{bookId}")
     public ResponseEntity<String> deleteBook(@PathVariable String bookId) {
         bookService.deleteBookAndReadingRecords(bookId);
