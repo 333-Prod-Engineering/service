@@ -1,6 +1,5 @@
 package ro.unibuc.hello.e2e.steps;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.en.And;
@@ -23,7 +22,6 @@ import java.util.Map;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
-@CucumberContextConfiguration
 @SpringBootTest()
 public class HelloWorldSteps {
 

@@ -7,5 +7,5 @@ import org.junit.runner.RunWith;
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources", tags = "E2E")
 public class AuthorE2E {
-    
+
 }

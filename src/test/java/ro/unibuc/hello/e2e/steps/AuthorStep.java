@@ -36,7 +36,7 @@ public class AuthorStep {
         executeGet("http://localhost:8080/authors");
     }
 
-    @Then("^the client receives status code of (\\d+)$")
+    @Then("^the client receives for /authors status code of (\\d+)$")
     public void the_client_receives_status_code_of(int statusCode) throws Throwable {
         final HttpStatus currentStatusCode = latestResponse.getTheResponse().getStatusCode();
         assertThat("status code is incorrect : " + latestResponse.getBody(), currentStatusCode.value(), is(statusCode));
