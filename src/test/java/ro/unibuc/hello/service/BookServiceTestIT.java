@@ -31,7 +31,7 @@ public class BookServiceTestIT {
     ReadingRecordRepository readingRecordRepository;
 
     @MockBean
-     ReaderRepository readerRepository;
+    ReaderRepository readerRepository;
 
     @Autowired
     BookService bookService;
@@ -39,31 +39,28 @@ public class BookServiceTestIT {
     @Test
     public void multipleBooksShouldBePresentForReader() {
 
-        //Arrange
-        String readerId = "8683";
+        // Arrange
+        var readerId = "8683";
 
         ReaderEntity reader = new ReaderEntity(
-            readerId,         
-            "John Doe",          
-            "American",          
-            "john.doe@example.com", 
-            "+1234567890",       
-            LocalDate.of(1990, 5, 15),
-            LocalDate.now()      
-        );
+                readerId,
+                "John Doe",
+                "American",
+                "john.doe@example.com",
+                "+1234567890",
+                LocalDate.of(1990, 5, 15),
+                LocalDate.now());
 
         List<ReadingRecordEntity> readingRecords = new ArrayList<>(List.of(
-            new ReadingRecordEntity(),
-            new ReadingRecordEntity(),
-            new ReadingRecordEntity()
-        ));
+                new ReadingRecordEntity(),
+                new ReadingRecordEntity(),
+                new ReadingRecordEntity()));
 
-        
         Optional<ReaderEntity> optionalReader = Optional.of(reader);
         when(readerRepository.findById(readerId)).thenReturn(optionalReader);
         when(readingRecordRepository.findByReader(reader)).thenReturn(readingRecords);
-        
-        //Act
+
+        // Act
         List<BookEntity> books = bookService.getBooksByReader(readerId);
 
         // Assert
