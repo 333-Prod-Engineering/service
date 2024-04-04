@@ -42,7 +42,7 @@ public class BookServiceTestIT {
         // Arrange
         var readerId = "8683";
 
-        ReaderEntity reader = new ReaderEntity(
+        var reader = new ReaderEntity(
                 readerId,
                 "John Doe",
                 "American",
@@ -51,17 +51,17 @@ public class BookServiceTestIT {
                 LocalDate.of(1990, 5, 15),
                 LocalDate.now());
 
-        List<ReadingRecordEntity> readingRecords = new ArrayList<>(List.of(
+        var readingRecords = new ArrayList<>(List.of(
                 new ReadingRecordEntity(),
                 new ReadingRecordEntity(),
                 new ReadingRecordEntity()));
 
-        Optional<ReaderEntity> optionalReader = Optional.of(reader);
+        var optionalReader = Optional.of(reader);
         when(readerRepository.findById(readerId)).thenReturn(optionalReader);
         when(readingRecordRepository.findByReader(reader)).thenReturn(readingRecords);
 
         // Act
-        List<BookEntity> books = bookService.getBooksByReader(readerId);
+        var books = bookService.getBooksByReader(readerId);
 
         // Assert
         Assertions.assertEquals(3, books.size());
