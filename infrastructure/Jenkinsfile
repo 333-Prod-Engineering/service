@@ -25,8 +25,8 @@ pipeline {
 
     stage('Push') {
             steps {
-                docker login docker.io -u $DOCKER_PASSWORD_USR -p $DOCKER_PASSWORD_PSW
-                docker push $DOCKER_PASSWORD_USR/hello-img:$IMAGE_VERSION      
+                sh "docker login docker.io -u $DOCKER_PASSWORD_USR -p $DOCKER_PASSWORD_PSW"
+                sh "docker push $DOCKER_PASSWORD_USR/hello-img:$IMAGE_VERSION" 
                 }
     }
 
