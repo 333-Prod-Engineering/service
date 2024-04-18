@@ -37,7 +37,7 @@ pipeline {
 
     stage('Docker') {
         steps {
-            sh "IMAGE_TAG=${env.IMAGE_TAG} docker compose up -d hello mongo"
+            sh "IMAGE_TAG=2.1.0 docker compose up -d hello mongo"
         }
     }
 
