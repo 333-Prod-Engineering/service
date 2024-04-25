@@ -22,7 +22,7 @@ pipeline {
                 env.PATCH_VERSION = sh([script: 'git tag | sort --version-sort | tail -1 | cut -d . -f 3', returnStdout: true]).trim()
                 env.IMAGE_TAG = "${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION}"
         }
-        sh "docker build -t tiberiusss26/hello-img:2.1.0 ."
+        sh "docker build -t tiberiusss26/hello-img:${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION} ."
       }
     }
 
@@ -35,11 +35,11 @@ pipeline {
                 }
     }
 
-    stage('Docker') {
-        steps {
-            sh "IMAGE_TAG=2.1.0 docker compose up -d hello mongo"
-        }
-    }
+    // stage('Docker') {
+    //     steps {
+    //         sh "IMAGE_TAG=2.1.0 docker compose up -d hello mongo"
+    //     }
+    // }
 
     }
 }
