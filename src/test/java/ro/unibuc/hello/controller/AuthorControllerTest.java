@@ -1,6 +1,7 @@
 package ro.unibuc.hello.controller;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,6 +25,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import ro.unibuc.hello.data.AuthorEntity;
 import ro.unibuc.hello.dto.AuthorCreationRequestDto;
 import ro.unibuc.hello.dto.AuthorDeleteRequestDto;
@@ -44,6 +48,9 @@ public class AuthorControllerTest {
 
         private AuthorEntity author;
 
+        @Mock
+        private MeterRegistry metricsRegistry;
+
         @BeforeEach
         public void setUp() {
                 mockMvc = MockMvcBuilders.standaloneSetup(authorController).build();
@@ -56,6 +63,10 @@ public class AuthorControllerTest {
 
         @Test
         void test_GetAuthors() throws Exception {
+                Counter counterMock = Mockito.mock(Counter.class);
+                when(metricsRegistry.counter(anyString(), anyString(), anyString())).thenReturn(counterMock);
+                doNothing().when(counterMock).increment();
+
                 // Given
                 var authorList = List.of(author);
                 when(authorService.getAllAuthors()).thenReturn(authorList);
@@ -73,6 +84,10 @@ public class AuthorControllerTest {
 
         @Test
         void test_PostAuthor() throws Exception {
+                Counter counterMock = Mockito.mock(Counter.class);
+                when(metricsRegistry.counter(anyString(), anyString(), anyString())).thenReturn(counterMock);
+                doNothing().when(counterMock).increment();
+
                 // Given
                 var authorCreationRequestDto = AuthorCreationRequestDto.builder().name("Ion Creanga")
                                 .nationality("romanian")
@@ -94,6 +109,10 @@ public class AuthorControllerTest {
 
         @Test
         void test_PatchAuthor() throws Exception {
+                Counter counterMock = Mockito.mock(Counter.class);
+                when(metricsRegistry.counter(anyString(), anyString(), anyString())).thenReturn(counterMock);
+                doNothing().when(counterMock).increment();
+                
                 // Given
                 var authorId = "1";
                 var authorUpdateRequestDto = AuthorUpdateRequestDto.builder().deathDate(LocalDate.of(1899, 12, 31))
@@ -115,6 +134,10 @@ public class AuthorControllerTest {
 
         @Test
         void test_DeleteAuthor() throws Exception {
+                Counter counterMock = Mockito.mock(Counter.class);
+                when(metricsRegistry.counter(anyString(), anyString(), anyString())).thenReturn(counterMock);
+                doNothing().when(counterMock).increment();
+
                 // Given
                 var authorDeleteRequestDto = AuthorDeleteRequestDto.builder().birthDate(LocalDate.of(1837, 03, 1))
                                 .name("Ion Creanga").build();
