@@ -18,6 +18,7 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 @RequiredArgsConstructor
 @Slf4j
 public class ReviewService {
+
     @Autowired
     private ReviewRepository reviewRepository;
 
@@ -25,8 +26,7 @@ public class ReviewService {
     private ReadingRecordRepository readingRecordRepository;
 
     public ReviewEntity saveReview(ReviewCreationRequestDto reviewCreationRequestDto) {
-        log.debug("Attempting to save a review with readingRecordId: {}",
-                reviewCreationRequestDto.getReadingRecordId());
+        log.debug("Attempting to save a review with readingRecordId: {}", reviewCreationRequestDto.getReadingRecordId());
 
         var readingRecordEntity = readingRecordRepository.findById(reviewCreationRequestDto.getReadingRecordId())
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -46,13 +46,18 @@ public class ReviewService {
     public ReviewEntity updateReview(String id, ReviewUpdateRequestDto reviewUpdateRequestDto) {
         log.debug("Updating the review with id '{}', setting rating '{}' and text '{}'", id,
                 reviewUpdateRequestDto.getRating(), reviewUpdateRequestDto.getReviewBody());
+
         var review = reviewRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(id));
         review.setRating(reviewUpdateRequestDto.getRating());
         review.setReviewBody(reviewUpdateRequestDto.getReviewBody());
+
         return reviewRepository.save(review);
     }
 
     public void deleteReview(String reviewId) {
+        log.debug("Deleting the review with id '{}'", reviewId);
         reviewRepository.deleteById(reviewId);
+
+
     }
 }

@@ -2,21 +2,23 @@ package ro.unibuc.hello.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.junit.jupiter.api.extension.ExtendWith;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,6 +27,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import ro.unibuc.hello.data.BookEntity;
 import ro.unibuc.hello.data.ReaderEntity;
 import ro.unibuc.hello.data.ReadingRecordEntity;
@@ -41,6 +45,9 @@ public class ReviewControllerTest {
 
     @InjectMocks
     private ReviewController reviewController;
+
+    @Mock
+    private MeterRegistry metricsRegistry;
 
     private MockMvc mockMvc;
 
@@ -99,6 +106,10 @@ public class ReviewControllerTest {
         var reviewCreationRequestDto = ReviewCreationRequestDto.builder().readingRecordId("1").rating(5)
                 .reviewBody("bun").build();
         when(reviewService.saveReview(any())).thenReturn(review);
+        
+        Counter counterMock = Mockito.mock(Counter.class);
+        when(metricsRegistry.counter(anyString(), anyString(), anyString())).thenReturn(counterMock);
+        doNothing().when(counterMock).increment();
 
         // When
         var result = mockMvc.perform(post("/reviews")
@@ -119,6 +130,10 @@ public class ReviewControllerTest {
         var reviewUpdateRequestDto = ReviewUpdateRequestDto.builder().rating(5).reviewBody("buna").build();
         when(reviewService.updateReview(anyString(), any())).thenReturn(review);
 
+        Counter counterMock = Mockito.mock(Counter.class);
+        when(metricsRegistry.counter(anyString(), anyString(), anyString())).thenReturn(counterMock);
+        doNothing().when(counterMock).increment();
+
         // When
         var result = mockMvc.perform(patch("/reviews/{id}", id)
                 .content(objectMapper.writeValueAsString(reviewUpdateRequestDto))
@@ -136,6 +151,10 @@ public class ReviewControllerTest {
         // Given
         var id = "1";
         doNothing().when(reviewService).deleteReview(anyString());
+
+        Counter counterMock = Mockito.mock(Counter.class);
+        when(metricsRegistry.counter(anyString(), anyString(), anyString())).thenReturn(counterMock);
+        doNothing().when(counterMock).increment();
 
         // When/Then
         mockMvc.perform(delete("/reviews/{id}", id))

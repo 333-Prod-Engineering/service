@@ -6,7 +6,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import ro.unibuc.hello.data.BookEntity;
 import ro.unibuc.hello.data.ReaderEntity;
 import ro.unibuc.hello.data.ReadingRecordEntity;
@@ -20,7 +24,10 @@ import ro.unibuc.hello.exception.EntityNotFoundException;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -34,6 +41,9 @@ public class ReviewServiceTest {
         @Mock
         private ReviewRepository reviewRepository;
 
+        @Mock
+        private MeterRegistry metricsRegistry;
+
         @InjectMocks
         ReviewService reviewService;
 
@@ -44,6 +54,8 @@ public class ReviewServiceTest {
         private ReadingRecordEntity readingRecord;
 
         private ReviewEntity review;
+
+
 
         @BeforeEach
         public void setup() {
@@ -155,16 +167,20 @@ public class ReviewServiceTest {
                 Assertions.assertEquals("Entity: 1 was not found", exception.getMessage());
         }
 
-        @Test
-        public void test_deleteReview_ok() throws Exception {
-                // Given
-                doNothing().when(reviewRepository).deleteById("1");
+    @Test
+    public void test_deleteReview_ok() throws Exception {
+        // Given
+        doNothing().when(reviewRepository).deleteById("1");
 
-                // When
-                // Then
-                assertDoesNotThrow(() -> {
-                        reviewService.deleteReview("1");
-                });
-        }
+        Counter counterMock = Mockito.mock(Counter.class);
+        when(metricsRegistry.counter(anyString(), anyString(), anyString())).thenReturn(counterMock);
+        doNothing().when(counterMock).increment();
+
+        // When
+        // Then
+        assertDoesNotThrow(() -> {
+            reviewService.deleteReview("1");
+        });
+    }
 
 }
